@@ -3,9 +3,9 @@ import NewsItem from "./NewsItem";
 import Spinner from "./Spinner";
 
 export class News extends Component {
-   capitalizeFirstLetter(string) {
+  capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
-}
+  }
 
   constructor(props) {
     super(props);
@@ -15,13 +15,14 @@ export class News extends Component {
       loading: false,
       page: 1,
     };
-    document.title= `${this.capitalizeFirstLetter(this.props.category)}- StarNews`;
- 
-  } 
+    document.title = `${this.capitalizeFirstLetter(
+      this.props.category
+    )}- StarNews`;
+  }
 
   // Code Refactoring
-  //Create a Function to fatch data through API 
-  async updateNews(){
+  //Create a Function to fatch data through API
+  async updateNews() {
     this.props.setProgress(10);
     const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=c5773707394445a4ae866c469da32e99&page=${this.props.page}&pagesize=${this.props.pageSize}`;
     this.setState({ loading: true });
@@ -29,14 +30,13 @@ export class News extends Component {
     this.props.setProgress(30);
     let parsedData = await data.json();
     this.props.setProgress(70);
-   // console.log(parsedData);
+    console.log(parsedData);
     this.setState({
       articles: parsedData.articles,
       totalResults: parsedData.totalResults,
       loading: false,
     });
     this.props.setProgress(100);
-
   }
 
   async componentDidMount() {
@@ -65,7 +65,7 @@ export class News extends Component {
     //   articles: parsedData.articles,
     //   loading: false,
     // });
-    this.setState({page: this.state.page-1})
+    this.setState({ page: this.state.page - 1 });
     this.updateNews();
   };
   handleNextClick = async () => {
@@ -87,16 +87,17 @@ export class News extends Component {
     //     loading: false,
     //   });
     // }
-    this.setState({page: this.state.page+1})
+    this.setState({ page: this.state.page + 1 });
     this.updateNews();
-
   };
 
   render() {
     return (
       <>
         <div className="container my-3">
-          <h1 className="text-center" style={{margin: '40px 0px;'}}>Top {this.capitalizeFirstLetter(this.props.category)}  Headlines</h1>
+          <h1 className="text-center" style={{ margin: "40px 0px" }}>
+            Top {this.capitalizeFirstLetter(this.props.category)} Headlines
+          </h1>
           {this.state.loading && <Spinner />}
           <div className="row">
             {!this.state.loading &&
@@ -110,7 +111,7 @@ export class News extends Component {
                       newsUrl={element.url}
                       author={element.author}
                       date={element.publishedAt}
-                     source={element.source.name}
+                      source={element.source.name}
                     />
                   </div>
                 );
